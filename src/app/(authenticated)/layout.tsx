@@ -1,0 +1,58 @@
+import { Sidebar } from "@/components/Sidebar";
+import { Navbar } from "@/components/Navbar";
+import { AuthDebug } from "@/components/auth-debug";
+import Link from "next/link";
+import { LayoutDashboard, BookOpen, ShoppingBag, UsersRound } from "lucide-react";
+
+import { AuthGuard } from "@/components/auth-guard";
+
+export default function AuthenticatedLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <AuthGuard>
+            <div className="min-h-screen bg-[#f8fafc] dark:bg-zinc-950 pb-20 lg:pb-0">
+                <Navbar />
+                <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
+                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-[280px_1fr]">
+                        <aside className="hidden lg:block h-fit sticky top-8">
+                            <Sidebar />
+                        </aside>
+                        <main className="min-w-0 pb-10">
+                            {children}
+                            <div className="mt-20 text-center text-xs text-muted-foreground">
+                                <p>Created by Sensei &copy; {new Date().getFullYear()}</p>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+
+                {/* Mobile Navigation */}
+                <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-t border-zinc-100 lg:hidden px-6 py-3">
+                    <div className="flex justify-between items-center max-w-md mx-auto">
+                        <Link href="/dashboard" className="flex flex-col items-center gap-1 text-zinc-500 hover:text-indigo-600 transition-colors">
+                            <LayoutDashboard className="h-5 w-5" />
+                            <span className="text-[10px] font-medium">Feed</span>
+                        </Link>
+                        <Link href="/courses" className="flex flex-col items-center gap-1 text-zinc-500 hover:text-indigo-600 transition-colors">
+                            <BookOpen className="h-5 w-5" />
+                            <span className="text-[10px] font-medium">Courses</span>
+                        </Link>
+                        <Link href="/marketplace" className="flex flex-col items-center gap-1 text-zinc-500 hover:text-indigo-600 transition-colors">
+                            <ShoppingBag className="h-5 w-5" />
+                            <span className="text-[10px] font-medium">Market</span>
+                        </Link>
+                        <Link href="/council" className="flex flex-col items-center gap-1 text-zinc-500 hover:text-indigo-600 transition-colors">
+                            <UsersRound className="h-5 w-5" />
+                            <span className="text-[10px] font-medium">Council</span>
+                        </Link>
+                    </div>
+                </div>
+                <AuthDebug />
+            </div>
+        </AuthGuard>
+    );
+}
+
